@@ -28,6 +28,7 @@ namespace MysteryWord
             Console.WriteLine("Let's Play Mystery Word");
 
 
+
             string[] wordArray;
             wordArray = File.ReadAllLines(@"..\..\WordList.txt");
             List<string> wordList = wordArray.ToList<string>();
@@ -36,31 +37,75 @@ namespace MysteryWord
 
             string mystWord = wordList[rndmNumb];
             string[] mystWordBlanks = new string[mystWord.Length];
-
-            for (int blanks = 0; blanks < mystWord.Length; blanks++)
-            {
-                string blank = "_";
-                mystWordBlanks[blanks] = blank;
-                
-            }
-            Console.WriteLine(string.Join(" ", mystWordBlanks));
-
-            string[] mystWordFilled = new string[mystWord.Length];
-
-            for (int filledSpot = 0; filledSpot < mystWord.Length; filledSpot++)
-            {
-                mystWordFilled[filledSpot] = wordArray[filledSpot];
-            }
+            char[] mystWordCharArray = mystWord.ToCharArray();
+            List<char> mystWordCharList = mystWordCharArray.ToList();
+            int gameCounter = 0;
+            bool contGame = true;
 
             Console.WriteLine(mystWord);
 
-            char[] mystWordCharArray = mystWord.ToCharArray();
-            int letterCount = mystWordCharArray.Length;
-
-            for (int guessCount = 0; guessCount < 8; guessCount++)
+            while (gameCounter == 0)
             {
+                if (gameCounter == 0)
+                    for (int i = 0; i < mystWord.Length; i++)
+                    {
+                        string blank = "_";
+                        mystWordBlanks[i] = blank;
+                        
+                        
+                    }
                
+                Console.WriteLine(string.Join(" ", mystWordBlanks));
+               
+                Console.WriteLine("Guess a Letter");
+                string guessString = Console.ReadLine();
+                Console.Clear();
+                char guess = guessString[0];
+
+
+
+                for (int i = 0; i < mystWord.Length; i++)
+                {
+                    string blank = "_";
+                    mystWordBlanks[i] = blank;
+                    
+
+                    if (mystWordCharArray[i] == guess)
+                    {
+                        mystWordBlanks[i] = guess.ToString();
+                        
+                    }
+                    
+                }
+                Console.WriteLine(string.Join(" ", mystWordBlanks));
+                gameCounter = 1;
+                //contGame = false;
+
+
+
+
             }
+
+
+
+
+
+            //************************************
+
+            //Console.WriteLine(mystWord);
+
+            //***********************************
+
+
+
+
+
+
+
+
+
+
+
         }
     }
 }

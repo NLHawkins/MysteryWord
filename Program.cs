@@ -9,44 +9,22 @@ namespace MysteryWord
 {
     class Program
     {
-        /*static void DrawBoard(List<string> letterList)
-        {
-            foreach (string letter in letterList)
-                Console.WriteLine("_ ");
-        }*/
-
-        /*static void Drawboard(string[] mystWordBlanks)
-    {
-        for (int i = 0; i < mystWord.Length; i++)
-        {
-            mystWordBlanks[i] = "_ ";
-        }
-    }*/
-
         static void Main(string[] args)
         {
             Console.WriteLine("Let's Play Mystery Word");
 
-
-
             string[] wordArray;
-            wordArray = File.ReadAllLines(@"..\..\WordList.txt");
+            wordArray = File.ReadAllLines(@"..\..\MystWordList.txt");
             List<string> wordList = wordArray.ToList<string>();
             var rwg = new Random();
             int rndmNumb = rwg.Next(wordList.Count);
-
             string mystWord = wordList[rndmNumb];
             string[] mystWordBlanks = new string[mystWord.Length];
             char[] mystWordCharArray = mystWord.ToCharArray();
-            List<char> mystWordCharList = mystWordCharArray.ToList();
-            string guessedLetters = "";
-            int gamePlay = 0;
-            //bool contGame = true;
+            List<string> guessedLetters = new List<string>();
+
             int guessLeft = 8;
             int blanksChanged = 0;
-
-
-            //Console.WriteLine(mystWord);
 
             for (int i = 0; i < mystWord.Length; i++)
             {
@@ -55,39 +33,33 @@ namespace MysteryWord
             }
 
             Console.WriteLine(string.Join(" ", mystWordBlanks));
-            gamePlay++;
 
             while ((string.Join("", mystWordBlanks) != mystWord) && (guessLeft > 0))
-            {
-                Console.WriteLine(mystWord);
+            {                
                 blanksChanged = 0;
-                Console.WriteLine("Guess a Letter");
-                //Console.WriteLine($"You have {guessLeft} incorrect guesses remaining!");
-                string guessString = Console.ReadLine();
+                Console.WriteLine("Guess a Letter");                
+                string guessString = Console.ReadLine().ToLower();
                 Console.Clear();
                 char guess = guessString[0];
-                
-                //char chkdLtrFound = 'y';
-
-                if (guessedLetters.Contains(guess))
+                if (guessedLetters.Contains(guessString))
                 {
                     Console.WriteLine("This letter has been previously guessed");
                     Console.WriteLine("Guess a new letter");
-                     
                 }
+                guessedLetters.Add(guessString);
 
                 for (int i = 0; i < mystWord.Length; i++)
                 {
-
                     if (mystWordCharArray[i] == guess)
                     {
                         mystWordBlanks[i] = guess.ToString();
                         blanksChanged++;
                     }
                 }
+
                 Console.WriteLine(string.Join(" ", mystWordBlanks));
-                guessedLetters = guessedLetters + guess;
-                Console.WriteLine("Letters guessed --- " + guessedLetters);
+                Console.WriteLine("Letters Guessed");
+                guessedLetters.ForEach(Console.WriteLine);
 
                 if (blanksChanged == 0)
                 {
@@ -95,33 +67,17 @@ namespace MysteryWord
                     Console.WriteLine($"Incorrect Guess! You have {guessLeft} guesses remaining");
                 }
 
-
             }
-                if (string.Join("", mystWordBlanks) == mystWord)
-                {
-                    Console.WriteLine("Congrats");
-                }
-                else
-                {
-                    Console.WriteLine(mystWord);
-                    Console.WriteLine("You're a LOSER");
-                }
-
-            
+            if (string.Join("", mystWordBlanks) == mystWord)
+            {
+                Console.WriteLine("Congrats");
+            }
+            else
+            {
+                Console.WriteLine("You're a LOSER");
+                Console.WriteLine($"The Mystery Word was {mystWord}");
+            }
         }
-        //contGame = false;
-
     }
 }
-
-
-//************************************
-
-//Console.WriteLine(mystWord);
-
-//***********************************
-
-
-
-
 
